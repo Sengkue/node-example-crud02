@@ -43,7 +43,7 @@ These instructions will help you set up the project on your local machine.
    package-lock.json
    ```
 5. update code in `package.json` like this:
-   ```javascript
+   ```sh
    "scripts": {
    "test": "test",
    "start":"nodemon server.js"
