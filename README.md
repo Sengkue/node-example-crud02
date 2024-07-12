@@ -531,9 +531,22 @@ exports.delete = (req, res) => {
 };
  ```
 # Postmans API
-## file json input at postmans
+## api category:
 ```sh
- https://localhost:8080/category
+ post: https://localhost:8080/category 
+ get:  https://localhost:8080/category
+ get:  https://localhost:8080/category/123
+ put: https://localhost:8080/category/123
+ delete: https://localhost:8080/category/123
+```
+## api employee:
+```sh 
+post: https://localhost:8080/employee
+post: https://localhost:8080/employee/array
+get: https://localhost:8080/employee
+get: https://localhost:8080/employee/123
+put: https://localhost:8080/employee/123
+delete: https://localhost:8080/employee/123
 ```
 ### Authors
 
