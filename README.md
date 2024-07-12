@@ -19,6 +19,11 @@ These instructions will help you set up the project on your local machine.
    git clone https://github.com/Sengkue/node-example-crud02.git
    cd node-example-crud02
    ```
+   ```sh
+   mkdir node-example-crud
+   cd node-example-crud
+   npm init
+   ```
 
 2. Install the required npm packages:
 
