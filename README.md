@@ -62,10 +62,10 @@ These instructions will help you set up the project on your local machine.
 
 - `server.js`: Main entry point of the application.
 - `config/db.js`: Database configuration and connection using Sequelize.
-- `models/category.model.js`: Category model definition.
-- `controllers/category.controller.js`: Category controller with CRUD operations.
+- `models/`: The directory contains the definition of the database models.
+- `controllers/`: directory contains the logic for handling requests and responses
 - `router/router.js`: Main router file.
-- `router/category.routes.js`: Category routes.
+- `router/category.routes.js`: child routes.
 
 # Code
 
