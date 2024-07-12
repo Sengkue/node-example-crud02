@@ -14,38 +14,48 @@ These instructions will help you set up the project on your local machine.
 ### Installing
 
 1. Clone the repository:
-    ```sh
-    git clone https://github.com/your-username/your-repo.git
-    cd your-repo
-    ```
+
+   ```sh
+   git clone https://github.com/your-username/your-repo.git
+   cd your-repo
+   ```
 
 2. Install the required npm packages:
-    ```sh
-    npm install express body-parser cors nodemon dotenv bcrypt mysql2 sequelize
-    ```
+
+   ```sh
+   npm install express body-parser cors nodemon dotenv bcrypt mysql2 sequelize
+   ```
 
 3. Create a `.env` file in the root directory and add your database configuration:
-    ```sh
-    DB_NAME='parentsShop'
-    USER='root'
-    PASSWORD=''
-    PORT='8080'
-    SECRET_KEY=1181
-    ```
+
+   ```sh
+   DB_NAME='parentsShop'
+   USER='root'
+   PASSWORD=''
+   PORT='8080'
+   SECRET_KEY=1181
+   ```
 
 4. Create a `.gitignore` file in the root directory:
-    ```sh
-    .env
-    node_modules
-    package-lock.json
-    ```
+   ```sh
+   .env
+   node_modules
+   package-lock.json
+   ```
+5. update code in `package.json` like this:
+   ```javascript
+   "scripts": {
+   "test": "test",
+   "start":"nodemon server.js"
+   },
+   ```
 
 ### Running the Server
 
 1. To start the server, run:
-    ```sh
-    npm start
-    ```
+   ```sh
+   npm start
+   ```
    The server will run on the port specified in the `.env` file (default: 8080).
 
 ## Project Structure
@@ -60,6 +70,7 @@ These instructions will help you set up the project on your local machine.
 # Code
 
 ## server.js
+
 ```javascript
 const express = require("express");
 const app = express();
@@ -88,10 +99,10 @@ const port = process.env.PORT || port_A;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
 ```
 
 ## config/db.js
+
 ```javascript
 const Sequelize = require("sequelize");
 require("dotenv").config();
@@ -121,9 +132,12 @@ sequelize.sync().then(() => {
 
 module.exports = sequelize;
 ```
+
 # models
+
 ## models/category.model.js
-```javascript  
+
+```javascript
 const DataTypes = require("sequelize");
 const sequelize = require("../config/db");
 const Category = sequelize.define(
@@ -144,114 +158,127 @@ const Category = sequelize.define(
     sequelize,
     timestamps: true,
   }
-
 );
 
 module.exports = Category;
- ```
+```
 
 ## models/employee.model.js
-```javascript
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
 
-const Employee = sequelize.define('employee', {
-  id: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    primaryKey: true,
-    defaultValue: DataTypes.UUIDV4,
+```javascript
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/db");
+
+const Employee = sequelize.define(
+  "employee",
+  {
+    id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    first_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  first_name: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  last_name: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  avatar: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-}, {
-  sequelize,
-  timestamps: true,
-});
+  {
+    sequelize,
+    timestamps: true,
+  }
+);
 
 module.exports = Employee;
-
-
 ```
+
 # router
+
 ## router/router.js
+
 ```javascript
-const route = require('express').Router();
+const route = require("express").Router();
 
-const category = require('./category.routes');
-const employee = require('./employee.routes');
+const category = require("./category.routes");
+const employee = require("./employee.routes");
 
-route.use('/category', category);
-route.use('/employee', employee);
+route.use("/category", category);
+route.use("/employee", employee);
 
 module.exports = route;
 ```
+
 ## router/category.routes.js
+
 ```javascript
-const controller = require('../controllers/category.controller');
-const route = require('express').Router();
-route.post('/', controller.create);
-route.get('/', controller.findAll);
-route.get('/:id', controller.findOne);
-route.put('/:id', controller.update);
-route.delete('/:id', controller.delete);
+const controller = require("../controllers/category.controller");
+const route = require("express").Router();
+route.post("/", controller.create);
+route.get("/", controller.findAll);
+route.get("/:id", controller.findOne);
+route.put("/:id", controller.update);
+route.delete("/:id", controller.delete);
 
 module.exports = route;
 ```
+
 ## router/employee.routes.js
+
 ```javascript
-const controller = require('../controllers/employee.controller');
-const router = require('express').Router();
+const controller = require("../controllers/employee.controller");
+const router = require("express").Router();
 
 // Route to create a new employee
-router.post('/', controller.createEmployee);
+router.post("/", controller.createEmployee);
 
 // Route to create a new employee
-router.post('/array', controller.createEmployees);
+router.post("/array", controller.createEmployees);
 
 // Route to get all employees
-router.get('/', controller.getAllEmployees);
+router.get("/", controller.getAllEmployees);
 
 // Route to get an employee by ID
-router.get('/:id', controller.getEmployeeById);
+router.get("/:id", controller.getEmployeeById);
 
 // Route to update an employee by ID
-router.put('/:id', controller.updateEmployee);
+router.put("/:id", controller.updateEmployee);
 
 // Route to delete an employee by ID
-router.delete('/:id', controller.deleteEmployee);
+router.delete("/:id", controller.deleteEmployee);
 
 module.exports = router;
 ```
-# controller
-## controllers/category.controller.js
-```javascript
 
-const Category = require('../models/category.model');
-exports.create=(req, res)=>{
-    const category={
-        category:req.body.category
-    }
-    Category.create(category).then((data)=>{
-        return res.status(200).json({result: data});
-    }).catch((error)=>{
-        return res.status(200).json({result: error});
+# controller
+
+## controllers/category.controller.js
+
+```javascript
+const Category = require("../models/category.model");
+exports.create = (req, res) => {
+  const category = {
+    category: req.body.category,
+  };
+  Category.create(category)
+    .then((data) => {
+      return res.status(200).json({ result: data });
     })
-}
+    .catch((error) => {
+      return res.status(200).json({ result: error });
+    });
+};
 exports.findAll = (req, res) => {
   Category.findAndCountAll()
     .then((data) => {
@@ -297,6 +324,7 @@ exports.delete = (req, res) => {
 ```
 
 ## controller/employee.controller.js
+
 ```javascript
 const Employee = require("../models/employee.model");
 const sequelize = require("../config/db");
@@ -315,11 +343,10 @@ exports.createEmployees = async (req, res) => {
       employees: createdEmployees,
     });
   } catch (error) {
-    console.error('Error creating employees:', error);
+    console.error("Error creating employees:", error);
     res.status(500).json({ message: "Error creating employees", error });
   }
 };
-
 
 // Create a new employee using Sequelize ORM
 exports.createEmployee = async (req, res) => {
@@ -461,15 +488,15 @@ exports.deleteEmployee = async (req, res) => {
     res.status(500).json({ message: "Error deleting employee", error });
   }
 };
-
-
 ```
-## controller/user.controller.js
- ``` javascript
-const User = require("../models/user.model");
-const bcrypt = require('bcrypt');
 
-exports.create = async(req, res) => {
+## controller/user.controller.js
+
+```javascript
+const User = require("../models/user.model");
+const bcrypt = require("bcrypt");
+
+exports.create = async (req, res) => {
   const password = await bcrypt.hash(req.body.password, 10);
   const user = {
     user: req.body.user,
@@ -529,18 +556,23 @@ exports.delete = (req, res) => {
       return res.status(500).json({ result: error });
     });
 };
- ```
+```
+
 # Postmans API
+
 ## api category:
+
 ```sh
- post:   https://localhost:8080/category 
+ post:   https://localhost:8080/category
  get:    https://localhost:8080/category
  get:    https://localhost:8080/category/123
  put:    https://localhost:8080/category/123
  delete: https://localhost:8080/category/123
 ```
+
 ## api employee:
-```sh 
+
+```sh
 post:   https://localhost:8080/employee
 post:   https://localhost:8080/employee/array
 get:    https://localhost:8080/employee
@@ -548,9 +580,10 @@ get:    https://localhost:8080/employee/123
 put:    https://localhost:8080/employee/123
 delete: https://localhost:8080/employee/123
 ```
+
 ### Authors
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/your-username)
+- **Your Name** - _Initial work_ - [YourGitHub](https://github.com/your-username)
 
 ## License
 
