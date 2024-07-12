@@ -16,8 +16,8 @@ These instructions will help you set up the project on your local machine.
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo
+   git clone https://github.com/Sengkue/node-example-crud02.git
+   cd node-example-crud02
    ```
 
 2. Install the required npm packages:
