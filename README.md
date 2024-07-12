@@ -512,6 +512,16 @@ get:    https://localhost:8080/employee/123
 put:    https://localhost:8080/employee/123
 delete: https://localhost:8080/employee/123
 ```
+```sh 
+{
+    "id": "123",
+    "email": "sengkuevangdd@example.com",
+    "first_name": "John",
+    "last_name": "Doe",
+    "avatar": "http://example.com/avatar.jpg"
+}
+
+```
 
 ### Authors
 
