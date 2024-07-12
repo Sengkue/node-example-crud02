@@ -7,6 +7,9 @@ router.post('/', controller.createEmployee);
 // Route to create a new employee
 router.post('/array', controller.createEmployees);
 
+// Route to get all employees with pagination support
+router.get('/pagination', controller.getAllEmployeesPagination);
+
 // Route to get all employees
 router.get('/', controller.getAllEmployees);
 

@@ -2,6 +2,85 @@ const Employee = require("../models/employee.model");
 const sequelize = require("../config/db");
 const { QueryTypes, Op } = require("sequelize");
 
+// // Get all employees with pagination
+// exports.getAllEmployeesPagination = async (req, res) => {
+//   const page = parseInt(req.query.page) || 1; // Current page number, default is 1
+//   const perPage = parseInt(req.query.per_page) || 6; // Number of employees per page, default is 6
+
+//   try {
+//     // Count total number of employees
+//     const totalCount = await Employee.count(); // Using Sequelize count method
+//     const total = totalCount;
+//     const totalPages = Math.ceil(total / perPage); // Calculate total pages
+
+//     // Calculate offset for pagination
+//     const offset = (page - 1) * perPage;
+
+//     // Fetch employees for the current page
+//     const employees = await Employee.findAll({
+//       limit: perPage,
+//       offset: offset,
+//       attributes: ["id", "email", "first_name", "last_name", "avatar"], // Select specific columns
+//     });
+
+//     // Construct the response data
+//     const responseData = {
+//       page,
+//       per_page: perPage,
+//       total,
+//       total_pages: totalPages,
+//       data: employees,
+//     };
+
+//     res.status(200).json(responseData);
+//   } catch (error) {
+//     console.error("Error fetching employees:", error);
+//     res.status(500).json({ message: "Error fetching employees", error });
+//   }
+// };
+// Get all employees with pagination
+exports.getAllEmployeesPagination = async (req, res) => {
+  const page = parseInt(req.query.page) || 1; // Current page number, default is 1
+  let perPage = parseInt(req.query.per_page) || 6; // Number of employees per page, default is 6
+
+  try {
+    // Count total number of employees
+    const totalCount = await Employee.count(); // Using Sequelize count method
+    const total = totalCount;
+
+    if (perPage <= 0) {
+      perPage = total; // Set perPage to total number of employees if perPage is <= 0
+    }
+
+    const totalPages = Math.ceil(total / perPage); // Calculate total pages
+
+    // Calculate offset for pagination
+    const offset = (page - 1) * perPage;
+
+    // Fetch employees for the current page
+    const employees = await Employee.findAll({
+      limit: perPage,
+      offset: offset,
+      attributes: ["id", "email", "first_name", "last_name", "avatar"], // Select specific columns
+    });
+
+    // Construct the response data
+    const responseData = {
+      page,
+      per_page: perPage,
+      total,
+      total_pages: totalPages,
+      data: employees,
+    };
+
+    res.status(200).json(responseData);
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+    res.status(500).json({ message: "Error fetching employees", error });
+  }
+};
+
+
 // Create multiple employees
 exports.createEmployees = async (req, res) => {
   const employeesData = req.body; // Array of employees data
@@ -15,11 +94,10 @@ exports.createEmployees = async (req, res) => {
       employees: createdEmployees,
     });
   } catch (error) {
-    console.error('Error creating employees:', error);
+    console.error("Error creating employees:", error);
     res.status(500).json({ message: "Error creating employees", error });
   }
 };
-
 
 // Create a new employee using Sequelize ORM
 exports.createEmployee = async (req, res) => {
