@@ -266,7 +266,7 @@ router.delete("/:id", controller.deleteEmployee);
 module.exports = router;
 ```
 
-# controller
+# controllers
 
 ## controllers/category.controller.js
 
